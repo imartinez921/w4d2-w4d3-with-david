@@ -1,8 +1,10 @@
+# require_relative 'board'
+
 class Piece
 
-  attr_reader :pos
+  attr_reader :pos, :board, :color
 
-  def initialize (color, board, pos)
+  def initialize(color, board, pos)
     @color = color
     @board = board
     @pos = pos
@@ -18,6 +20,11 @@ class Piece
 
   def valid_moves # Returns an array of potential final positions
 
+  end
+
+  def empty?(pos)
+    # return true if @board[pos] == NullPiece.instance
+    false
   end
 
 end

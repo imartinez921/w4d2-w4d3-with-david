@@ -1,4 +1,4 @@
-require_relative 'piece'
+require_relative './piece.rb'
 require 'singleton'
 
 class NullPiece < Piece
@@ -7,7 +7,18 @@ class NullPiece < Piece
   def initialize
   end
 
-   def to_s
+  def moves
+  end
+
+  def color
+    nil
+  end
+
+  def symbol
+    nil
+  end
+
+  def to_s
     return " "
   end
 

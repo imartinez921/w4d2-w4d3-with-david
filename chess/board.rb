@@ -1,9 +1,9 @@
-require_relative 'piece'
-require_relative 'knight'
-require_relative 'queen'
-require_relative 'king'
-require_relative 'rook'
-require_relative 'pawn'
+require_relative './piece.rb'
+# require_relative 'knight'
+# require_relative 'queen'
+# require_relative 'king'
+# require_relative 'rook'
+# require_relative 'pawn'
 require_relative 'nullpiece'
 require_relative 'bishop'
 require 'colorize'
@@ -28,12 +28,16 @@ class Board
       @row[i].each.with_index do |ele, j|
         pos = [i,j]
         if i == 6 || i == 7
-          self[pos] = Piece.new(:black, nil, pos)
+          self[pos] = Piece.new(:black, self, pos)
         else
-          self[pos] = Piece.new(nil, nil, pos)
+          self[pos] = Piece.new(nil, self, pos)
         end
       end
     end
+
+    self[3,3] = Bishop.new(:black, @board, [3,3] )
+
+
   end
 
   def display
@@ -62,8 +66,8 @@ class Board
   
 end
 
-
+p "HIII"
 a = Board.new
 a.display
-a.move_piece([0,0], [4,4])
-a.display
+
+#a.display
