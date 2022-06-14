@@ -1,6 +1,31 @@
 require_relative 'employee'
 
 class Manager < Employee
+  attr_reader :employee
+
+  def initialize(name, title, salary, boss=nil)
+    super
+    @employee = []
+  end
+
+  def add_employee(name)
+    @employee << name
+  end
+
+  def bonus(multiplier)
+    bonus = 0
+    queue = [self]
+
+    until queue.empty?
+      worker = queue.shift
+      if worker.is_a?(Manager)
+        queue += worker.employee
+      end
+      bonus += worker.salary * multiplier
+    end
+    bonus -= self.salary * multiplier
+    bonus
+  end
 
 end
 
