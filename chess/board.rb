@@ -6,6 +6,7 @@ require_relative 'rook'
 require_relative 'pawn'
 require_relative 'nullpiece'
 require_relative 'bishop'
+require 'colorize'
 
 class Board
 
@@ -26,7 +27,11 @@ class Board
     nums.each do |i|
       @row[i].each.with_index do |ele, j|
         pos = [i,j]
-        self[pos] = Piece.new(nil, nil, pos)
+        if i == 6 || i == 7
+          self[pos] = Piece.new(:black, nil, pos)
+        else
+          self[pos] = Piece.new(nil, nil, pos)
+        end
       end
     end
   end
@@ -60,5 +65,5 @@ end
 
 a = Board.new
 a.display
-a.move_piece([4,4], [0,0])
+a.move_piece([0,0], [4,4])
 a.display
