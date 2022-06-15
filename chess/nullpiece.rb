@@ -8,6 +8,7 @@ class NullPiece < Piece
   end
 
   def moves
+    return []
   end
 
   def color

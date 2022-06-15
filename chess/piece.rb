@@ -3,6 +3,8 @@
 require 'byebug'
 class Piece
 
+  ALL_SQUARES = (0..7).to_a.product((0..7).to_a)
+
   attr_reader :pos, :board, :color
 
   def initialize(color, board, pos)

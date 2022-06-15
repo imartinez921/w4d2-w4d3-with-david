@@ -1,4 +1,5 @@
 require_relative "piece"
+require "byebug"
 
 
 class Pawn < Piece
@@ -40,11 +41,15 @@ class Pawn < Piece
 
 
   def side_attacks #only attack forward
-    sides = [[pos[0] + forward_dir, pos[1] + 1],
-      [pos[0] + forward_dir, pos[1] + -1]]
+    side1 = [pos[0] + forward_dir, pos[1] + 1]
+    side2 = [pos[0] + forward_dir, pos[1] + -1]
+    sides = []
+    sides << side1 if ALL_SQUARES.include?(side1)
+    sides << side2 if ALL_SQUARES.include?(side2)
 
     viable_sides = []
     sides.each do |side|
+      #debugger
       if !self.empty?(side) && @board[side].color != self.color
         viable_sides << side
       end

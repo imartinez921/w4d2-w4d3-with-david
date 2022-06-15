@@ -11,6 +11,8 @@ require 'byebug'
 
 class Board
 
+  ALL_SQUARES = (0..7).to_a.product((0..7).to_a)
+
   def [](pos) #pos is a pair inside an array
     @row[pos[0]][pos[1]]
   end
@@ -61,11 +63,13 @@ class Board
       end
     end
 
-    # self[[2,6]] = King.new(:white, self, [2,6] )
+    # self[[2,6]] = King.new(:black, self, [2,6] )
     # self[[3,6]] = Rook.new(:white, self, [3,6] )
 
-    # p self[[2,6]].moves
+    # p self[[1,5]].moves
 
+    self[[1,4]] = NullPiece.instance
+    self[[6,4]] = NullPiece.instance
 
   end
 
@@ -91,18 +95,37 @@ class Board
 
   end
 
+  def in_check?(color)
+    king_pos = ALL_SQUARES.select do |pos|
+      self[pos].symbol == :K && self[pos].color == color
+    end
+    king_pos = king_pos.flatten
+    other_team_color = color == :black ? :white : :black
+    return all_valid_moves(other_team_color).include?(king_pos)
+  end
 
-  
+  def all_valid_moves(color)
+    team_pos = ALL_SQUARES.select do |pos|
+      self[pos].color == color
+    end
+
+    all_team_moves = []
+    team_pos.each do |square|
+      all_team_moves += self[square].moves
+    end
+
+    return all_team_moves
+  end
+
+
   private
   attr_reader :null_piece
-  
-  
   
   
 end
 
 
-# a = Board.new
-# a.display
+a = Board.new
+a.display
+p a.in_check?(:white)
 
-# #a.display
