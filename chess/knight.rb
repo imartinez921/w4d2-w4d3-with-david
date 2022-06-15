@@ -1,12 +1,15 @@
 require_relative 'piece'
-require_relative 'stepable'
+require_relative 'steppable'
 
 class Knight < Piece
-    include Stepable
+    include Steppable
 
     def symbol
         return :N
     end
   
-
+    private
+    def move_dirs
+      symbol
+    end
 end

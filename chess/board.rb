@@ -61,16 +61,15 @@ class Board
       end
     end
 
-    self[[3,6]] = Rook.new(:white, self, [3,3] )
-    self[[2,5]] = Rook.new(:black, self, [3,3] )
+    # self[[2,6]] = King.new(:white, self, [2,6] )
+    # self[[3,6]] = Rook.new(:white, self, [3,6] )
 
-    p self[[1,6]].test
+    # p self[[2,6]].moves
 
 
   end
 
   def display
-    puts
     a = (0..7).to_a
     a = a.map {|el| el.to_s.green}
     puts "  | #{a.join(" | ")}"
@@ -103,7 +102,7 @@ class Board
 end
 
 
-a = Board.new
-a.display
+# a = Board.new
+# a.display
 
-#a.display
+# #a.display
