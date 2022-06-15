@@ -1,12 +1,13 @@
-require_relative './piece.rb'
-# require_relative 'knight'
-# require_relative 'queen'
-# require_relative 'king'
-# require_relative 'rook'
-# require_relative 'pawn'
+require_relative 'piece'
+require_relative 'knight'
+require_relative 'queen'
+require_relative 'king'
+require_relative 'rook'
+require_relative 'pawn'
 require_relative 'nullpiece'
 require_relative 'bishop'
 require 'colorize'
+require 'byebug'
 
 class Board
 
@@ -20,30 +21,63 @@ class Board
 
   # INITIALIZATION 
   def initialize
+    
     @row = Array.new(8) {Array.new(8, NullPiece.instance)}
     # @null_piece = null_piece
-
+    
     nums = [0,1,6,7]
     nums.each do |i|
       @row[i].each.with_index do |ele, j|
         pos = [i,j]
-        if i == 6 || i == 7
-          self[pos] = Piece.new(:black, self, pos)
-        else
-          self[pos] = Piece.new(nil, self, pos)
+        if i == 7
+          if j == 0 || j == 7
+            self[pos] = Rook.new(:black, self, pos)
+          elsif j == 1 || j == 6
+            self[pos] = Knight.new(:black, self, pos)
+          elsif j == 2 || j == 5
+            self[pos] = Bishop.new(:black, self, pos)
+          elsif j == 3
+            self[pos] = King.new(:black, self, pos)
+          elsif j == 4
+            self[pos] = Queen.new(:black, self, pos)
+          end
+        elsif i == 6
+          self[pos] = Pawn.new(:black, self, pos)
+        elsif i == 1
+          self[pos] = Pawn.new(:white, self, pos)
+        elsif i == 0
+          if j == 0 || j == 7
+            self[pos] = Rook.new(:white, self, pos)
+          elsif j == 1 || j == 6
+            self[pos] = Knight.new(:white, self, pos)
+          elsif j == 2 || j == 5
+            self[pos] = Bishop.new(:white, self, pos)
+          elsif j == 4
+            self[pos] = King.new(:white, self, pos)
+          elsif j == 3
+            self[pos] = Queen.new(:white, self, pos)
+          end
         end
       end
     end
 
-    self[3,3] = Bishop.new(:black, @board, [3,3] )
+    # self[[3,3]] = Rook.new(:black, self, [3,3] )
+    # p self[[3,3]].moves
 
 
   end
 
   def display
-    @row.each do |el|
-      puts el.join(" ")
+    puts
+    a = (0..7).to_a
+    a = a.map {|el| el.to_s.green}
+    puts "  | #{a.join(" | ")}"
+    @row.each_with_index do |el,i|
+      puts "--+---+---+---+---+---+---+---+---"
+      puts "#{i.to_s.green} | #{el.join(" | ")}"
+      
     end
+    puts
   end
 
   def move_piece(start_pos, end_pos)
@@ -66,7 +100,7 @@ class Board
   
 end
 
-p "HIII"
+
 a = Board.new
 a.display
 

@@ -4,6 +4,9 @@ require_relative 'slideable'
 class Rook < Piece
     include Slideable
 
+    def symbol
+      return :R
+    end
 
     private
     def move_dirs
@@ -11,5 +14,5 @@ class Rook < Piece
     end
 end
 
-r = Rook.new(nil, nil, [0,0])
-p r.moves
+# r = Rook.new(nil, nil, [0,0])
+# p r.moves

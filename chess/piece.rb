@@ -1,5 +1,6 @@
-# require_relative 'board'
-
+#require_relative 'board'
+#require_relative 'nullpiece'
+require 'byebug'
 class Piece
 
   attr_reader :pos, :board, :color
@@ -10,11 +11,16 @@ class Piece
     @pos = pos
   end
 
+  def symbol
+    return :P
+  end
+
+
   def to_s
     if @color == :black
-      return "P".red
+      return self.symbol.to_s.red
     else
-      return "P"
+      return self.symbol.to_s
     end
   end
 
@@ -23,7 +29,8 @@ class Piece
   end
 
   def empty?(pos)
-    # return true if @board[pos] == NullPiece.instance
+    #debugger
+    return true if @board[pos] == NullPiece.instance
     false
   end
 
