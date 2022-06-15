@@ -29,7 +29,6 @@ class Piece
   end
 
   def empty?(pos)
-    #debugger
     return true if @board[pos] == NullPiece.instance
     false
   end

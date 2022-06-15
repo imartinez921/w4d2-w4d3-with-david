@@ -61,8 +61,10 @@ class Board
       end
     end
 
-    # self[[3,3]] = Rook.new(:black, self, [3,3] )
-    # p self[[3,3]].moves
+    self[[3,6]] = Rook.new(:white, self, [3,3] )
+    self[[2,5]] = Rook.new(:black, self, [3,3] )
+
+    p self[[1,6]].test
 
 
   end
@@ -75,8 +77,8 @@ class Board
     @row.each_with_index do |el,i|
       puts "--+---+---+---+---+---+---+---+---"
       puts "#{i.to_s.green} | #{el.join(" | ")}"
-      
     end
+    puts "--+---+---+---+---+---+---+---+---"
     puts
   end
 
