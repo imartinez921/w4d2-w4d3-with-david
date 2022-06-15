@@ -15,14 +15,19 @@ class Display
   def render
     while true
       system("clear")
+      a = (0..7).to_a
+      a = a.map {|el| el.to_s.green}
+      puts "  | #{a.join(" | ")}"
+      puts "--+---+---+---+---+---+---+---+---"
       (0..7).each do |row|
         arr = []
         (0..7).each do |col|
-          string_val = @board[[row,col]].to_s
-          string_val = string_val.colorize(:background => :red) if @cursor.cursor_pos == [row,col]
+          string_val = " " + @board[[row,col]].to_s + " "
+          string_val = string_val.colorize(:background => :green) if @cursor.cursor_pos == [row,col]
           arr << string_val
         end
-        puts arr.join(" ")
+        puts "#{row.to_s.green} |#{arr.join("|")}"
+        puts "--+---+---+---+---+---+---+---+---"
       end
       @cursor.get_input
     end

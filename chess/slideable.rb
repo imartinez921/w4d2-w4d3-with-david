@@ -27,7 +27,7 @@ module Slideable
           row = self.pos[0] + step[0]
           col = self.pos[1] + step[1]
           # debugger
-          if !blocked  && (0..7).include?(row) && (0..7).include?(col)
+          if !blocked  && ALL_SQUARES.include?([row,col])
             if !self.empty?([row,col])
               blocked = true
               potential_moves << [row,col] if board[[row,col]].color != self.color
@@ -45,11 +45,11 @@ module Slideable
         dir.each_with_index do |step, i|
           row = self.pos[0] + step[0]
           col = self.pos[1] + step[1]
-    
-          if !blocked  && (0..7).include?(row) && (0..7).include?(col)
-            if !self.empty?([row,col])
+          pos = [ row,col ]
+          if !blocked  && ALL_SQUARES.include?(pos)
+            if !self.empty?(pos)
               blocked = true
-              potential_moves << [row,col] if board[[row,col]].color != self.color
+              potential_moves << [row,col] if !same_team?([row,color], self.color)
             else
               potential_moves << [row,col] #if (0..7).include?(row) && (0..7).include?(col)
             end
@@ -58,6 +58,13 @@ module Slideable
       end
     end
     return potential_moves
+  end
+
+  private
+
+  def same_team?(pos,color)
+    return board[pos].color == self.color
+
   end
 
 

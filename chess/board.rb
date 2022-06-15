@@ -1,4 +1,4 @@
-require_relative 'piece'
+# require_relative 'piece'
 require_relative 'knight'
 require_relative 'queen'
 require_relative 'king'
@@ -64,13 +64,16 @@ class Board
     end
 
     # self[[2,6]] = King.new(:black, self, [2,6] )
-    # self[[3,6]] = Rook.new(:white, self, [3,6] )
-
+    
     # p self[[1,5]].moves
-
+    
     self[[1,4]] = NullPiece.instance
     self[[6,4]] = NullPiece.instance
-
+    self[[0,3]] = NullPiece.instance
+    self[[0,5]] = NullPiece.instance
+    #self[[0,6]] = NullPiece.instance
+    self[[1,4]] = Queen.new(:black, self, [1,4] )
+    
   end
 
   def display
@@ -96,10 +99,7 @@ class Board
   end
 
   def in_check?(color)
-    king_pos = ALL_SQUARES.select do |pos|
-      self[pos].symbol == :K && self[pos].color == color
-    end
-    king_pos = king_pos.flatten
+    king_pos = find_king(color) #get king's position
     other_team_color = color == :black ? :white : :black
     return all_valid_moves(other_team_color).include?(king_pos)
   end
@@ -117,15 +117,64 @@ class Board
     return all_team_moves
   end
 
+  def checkmate?(color)
+    # in_check needs to be true
+    # return false if king has any valid positions that are NOT in the valid pos of OTHER COLOR all_team_moves
+    # return false if threat can be taken out
+    # --- (if the piece with king pos in valid pos, is in the pos of the king's team)
+
+    return false if !in_check?(color)
+    puts "HI"
+    teammates = locate_team(color)
+    teammates.each do |teammate| #teammate here is the COORDINATE of a teammate (same color)
+      teammate_moves = self[teammate].moves
+      teammate_moves.each do |final_position|
+        #system("clear")
+        temp_piece = self[final_position]
+        self.move_piece(teammate, final_position)
+        #self.display
+        puts self.in_check?(color)
+        if !self.in_check?(color)
+          self.move_piece(final_position, teammate)
+          self[final_position] = temp_piece
+          return false
+        else
+          self.move_piece(final_position, teammate)
+          self[final_position] = temp_piece
+        end
+        #sleep(1)
+
+      end
+
+    end
+    true
+  end
+
+  protected
+  def locate_team(same_color)
+    return ALL_SQUARES.select do |pos|
+      self[pos].color == same_color
+    end
+  end
+
+
 
   private
   attr_reader :null_piece
-  
+
+  def find_king(color)
+    king_pos = ALL_SQUARES.select do |pos|
+        self[pos].symbol == :K && self[pos].color == color
+    end
+    return king_pos.flatten
+  end
+
+
+
   
 end
 
 
 a = Board.new
 a.display
-p a.in_check?(:white)
-
+p a.checkmate?(:white)

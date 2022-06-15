@@ -4,6 +4,14 @@ require 'byebug'
 class Piece
 
   ALL_SQUARES = (0..7).to_a.product((0..7).to_a)
+  MY_ARRAY_ADD = Proc.new do |arr1, arr2|
+    arr = []
+    arr1.each_with_index do |el, i|
+      arr << el + arr2[i]
+    end
+    arr
+  end
+
 
   attr_reader :pos, :board, :color
 
